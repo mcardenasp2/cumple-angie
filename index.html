@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>🎉 Feliz Cumple, Angie 💖</title>
+  <style>
+    :root{
+      --pink:#ff6fa5;
+      --pink-dark:#d83e7a;
+      --cream:#fff6fa;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(165deg, #ffd1e3 0%, #ff9fc1 45%, #ff6fa5 100%);
+      color:#371825;
+      overflow-x:hidden;
+    }
+    .container{
+      min-height:100vh; display:flex; justify-content:center; align-items:center; padding:16px;
+    }
+    .card{
+      width:100%; max-width:480px;
+      background:var(--cream);
+      border-radius:20px; box-shadow:0 8px 20px rgba(0,0,0,.2);
+      border:3px solid rgba(255,255,255,.8);
+      overflow:hidden; position:relative;
+    }
+    header{
+      text-align:center; padding:20px 12px;
+    }
+    h1{ font-size:1.8rem; line-height:1.2; }
+    .subtitle{ font-size:.9rem; opacity:.8; margin-top:6px }
+    .scene{ display:flex; justify-content:center; align-items:center; position:relative; padding:12px; }
+    svg{ width:80%; max-width:300px; height:auto; }
+    .msg{
+      margin:12px; padding:14px; font-size:1rem;
+      background:#fff; border:2px dashed var(--pink-dark); border-radius:14px;
+    }
+    .actions{ display:flex; flex-direction:column; gap:10px; margin:12px; }
+    button{
+      border:none; background:linear-gradient(180deg,var(--pink),var(--pink-dark));
+      color:#fff; padding:12px; border-radius:12px; font-size:1rem;
+      font-weight:bold; box-shadow:0 4px 10px rgba(0,0,0,.2);
+    }
+    button:active{ transform:scale(.97) }
+    .footer{ text-align:center; font-size:.8rem; opacity:.7; padding:12px; }
+    .pill{ display:inline-block; background:#ffe4ee; padding:4px 10px; border-radius:999px; font-size:.8rem; margin:4px; }
+    /* Confeti */
+    .confetti{ pointer-events:none; position:fixed; inset:0; overflow:hidden; z-index:1000; }
+    .confetti span{ position:absolute; width:10px; height:14px; background:red; top:-20px; opacity:.9; animation:fall linear forwards; }
+    @keyframes fall{ to{ transform:translateY(110vh) rotate(720deg);} }
+
+    /* Mensaje especial oculto */
+    #specialMessage {
+      display:none;
+      margin:15px;
+      padding:16px;
+      background:#fff0f7;
+      border:2px solid var(--pink-dark);
+      border-radius:14px;
+      font-size:1.1rem;
+      color:#d63384;
+      animation: fadeIn 1s forwards;
+    }
+    @keyframes fadeIn {
+      from {opacity:0; transform:scale(0.9);}
+      to {opacity:1; transform:scale(1);}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <header>
+        <h1>🎂 ¡Feliz Cumple, <span id="friendName">Angie</span>!</h1>
+        <div class="subtitle">Con mucho cariño 💖</div>
+      </header>
+
+      <div class="scene">
+        <!-- Osito estilo Lotso -->
+        <svg viewBox="0 0 360 300">
+          <circle cx="110" cy="90" r="36" fill="#ff9fc1"/>
+          <circle cx="250" cy="90" r="36" fill="#ff9fc1"/>
+          <circle cx="180" cy="140" r="92" fill="#ff6fa5"/>
+          <ellipse cx="180" cy="170" rx="66" ry="50" fill="#ffd1e3"/>
+          <path d="M180 148 c18 0 28 12 22 24 s-18 12-22 12 s-17 0-22-12 4-24 22-24z" fill="#642a3c"/>
+          <path d="M150 190 q30 24 60 0" fill="none" stroke="#642a3c" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="150" cy="140" r="10" fill="#371825"/>
+          <circle cx="210" cy="140" r="10" fill="#371825"/>
+        </svg>
+      </div>
+
+      <div class="msg" id="message">Que tengas un día lleno de abrazos de oso y mucha alegría 🧸✨</div>
+      <div style="text-align:center;">
+        <span class="pill">Edad: <span id="age">23</span></span>
+        <span class="pill">Fecha: <span id="date">hoy</span></span>
+      </div>
+
+      <div class="actions">
+        <button id="surpriseBtn">🎊 Sorpresa</button>
+        <button id="specialBtn">💝 Mensaje Especial</button>
+      </div>
+
+      <div id="specialMessage">
+        🌸 Hoy celebro no solo tu cumpleaños, sino también la dicha de tenerte en mi vida.
+✨ Que cada día encuentres razones para sonreír, que nunca falte la paz en tu corazón y que tus sueños se hagan camino con pasos firmes y llenos de luz.
+💖 Eres especial y el mundo es más bonito porque existes.
+      </div>
+
+      <div class="footer">Hecho con 💗 por <span id="fromName">tu amigo simio</span></div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const el = (id)=>document.getElementById(id);
+    const today = new Date();
+    el('date').textContent = today.toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
+
+    function launchConfetti(amount=80){
+      const box = el('confetti');
+      box.innerHTML = '';
+      for(let i=0;i<amount;i++){
+        const piece = document.createElement('span');
+        piece.style.left = Math.random()*100+'vw';
+        piece.style.background = `hsl(${Math.random()*360},90%,60%)`;
+        piece.style.animationDuration = (3+Math.random()*3)+'s';
+        piece.style.transform = `rotate(${Math.random()*360}deg)`;
+        box.appendChild(piece);
+      }
+      setTimeout(()=> box.innerHTML='',4000);
+    }
+
+    el('surpriseBtn').addEventListener('click',()=>{
+      launchConfetti();
+    });
+
+    el('specialBtn').addEventListener('click',()=>{
+      el('specialMessage').style.display = 'block';
+      launchConfetti();
+    });
+  </script>
+</body>
+</html>
